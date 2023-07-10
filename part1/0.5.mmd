@@ -1,0 +1,5 @@
+flowchart TD
+    A[User Submits Note] --> B{Event Handler is Called}
+    B --> |Default Overriden| C(Note Pushed to Notes Array)
+    C --> D(Notes Rerendered)
+    D --> |Note Timestamp and Content Sent in JSON| E[Note Sent to Server]
