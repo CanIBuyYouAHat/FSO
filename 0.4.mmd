@@ -1,0 +1,4 @@
+flowchart TD
+    A[Note Entered] -->|Form Button Clicked| B(User Input Sent to Server)
+    B --> |Note Pushed to Notes Array| C(Server Tells Browser To GET /Notes)
+    C --> |Browser Reloads Notes| D[Page Displays New Notes]
