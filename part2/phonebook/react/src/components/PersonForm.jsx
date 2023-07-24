@@ -1,6 +1,6 @@
 import phoneService from '../PhoneService'
 
-const PersonForm = ({ newName, newNumber, setNewName, setNewNumber, persons, setPersons}) => {
+const PersonForm = ({ newName, newNumber, setNewName, setNewNumber, persons, setPersons, setNotif }) => {
     const handleNameChange = (event) => {
         setNewName(event.target.value)
       }
@@ -23,7 +23,8 @@ const PersonForm = ({ newName, newNumber, setNewName, setNewNumber, persons, set
           if (window.confirm(`${newName} is already added to the phonebook, replace the old number with a new one?`) && id !== undefined) {
             const toUpdate = {
               name: newName,
-              number: newNumber
+              number: newNumber,
+              id: newNumber,
             }
             phoneService
               .update(id, toUpdate).then (response => {
@@ -34,7 +35,10 @@ const PersonForm = ({ newName, newNumber, setNewName, setNewNumber, persons, set
                     return person
                   }
                 })) 
+                setNotif(`Successfully updated ${newName}`)
+                setTimeout(() => {setNotif(null)}, 2000)
             })
+            
           }
           
           // alert(`${newName} is already added to phonebook`)
@@ -42,12 +46,15 @@ const PersonForm = ({ newName, newNumber, setNewName, setNewNumber, persons, set
           const newPerson = {
             name: newName,
             number: newNumber,
+            id: newNumber
           }
 
           phoneService
             .create(newPerson)
             .then(response => {
-                setPersons(persons.concat(newPerson));
+                setPersons(persons.concat(newPerson))
+                setNotif(`Successfully added ${newName}`)
+                setTimeout(() => {setNotif(null)}, 2000)
             })    
           
         }

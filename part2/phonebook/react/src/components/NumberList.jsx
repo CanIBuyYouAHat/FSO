@@ -1,14 +1,22 @@
 import phoneService from '../PhoneService'
 
-const NumberList = ( { newFilter, persons }) => {
+const NumberList = ( { newFilter, persons, setNotif, setPersons }) => {
 
     const deletePerson = (id, person) => {
         if (window.confirm(`Are you sure you want to delete ${person.name}`))
         phoneService
             .remove(id)
-            .then(
+            .then(response => {
+                console.log('deleted')
                 setPersons(persons.filter(person => person.id !== id))
-            )
+                setNotif(`Successfully deleted ${person.name}`)
+                setTimeout(() => {setNotif(null)}, 2000)
+            })
+            .catch(err => {
+                console.log(err.message)
+                setNotif(`Information of ${person.name} has already been deleted`)
+                setTimeout(() => {setNotif(null)}, 2000)
+            })
     }
 
     if (newFilter === ''){

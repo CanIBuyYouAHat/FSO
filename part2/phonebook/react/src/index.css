@@ -14,6 +14,16 @@
   -webkit-text-size-adjust: 100%;
 }
 
+.notif {
+  color: green;
+  background: light-gray;
+  font-size: 20px;
+  border-style: solid;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
 a {
   font-weight: 500;
   color: #646cff;
