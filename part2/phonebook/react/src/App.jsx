@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import NumberList from './components/NumberList'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
+import phoneService from './PhoneService'
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
@@ -12,11 +13,11 @@ const App = () => {
   const [newFilter, setNewFilter] = useState('')
 
   const hook = () => {
-    axios
-    .get('http://localhost:3001/persons')
-    .then(response => {
+    phoneService
+      .getAll()
+      .then(response => {
         setPersons(response.data)
-    })
+      })
   }
   
 

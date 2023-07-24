@@ -1,3 +1,5 @@
+import phoneService from '../PhoneService'
+
 const PersonForm = ({ newName, newNumber, setNewName, setNewNumber, persons, setPersons}) => {
     const handleNameChange = (event) => {
         setNewName(event.target.value)
@@ -9,20 +11,48 @@ const PersonForm = ({ newName, newNumber, setNewName, setNewNumber, persons, set
     
       const addPerson = (event) => {
         event.preventDefault()
-        if (persons.map(person => person.name === newName).includes(true)) {
-          alert(`${newName} is already added to phonebook`)
+        // persons.map(person => person.name === newName).includes(true)
+        
+        if (persons.some(person => person.name === newName)) {
+          let id
+          for (const person of persons) {
+            if (person.name === newName) {
+              id = person.id
+            }
+          }
+          if (window.confirm(`${newName} is already added to the phonebook, replace the old number with a new one?`) && id !== undefined) {
+            const toUpdate = {
+              name: newName,
+              number: newNumber
+            }
+            phoneService
+              .update(id, toUpdate).then (response => {
+                setPersons(persons.map(person => {
+                  if (person.name === newName) {
+                    return { ...person, number: newNumber }
+                  } else {
+                    return person
+                  }
+                })) 
+            })
+          }
+          
+          // alert(`${newName} is already added to phonebook`)
         } else {
           const newPerson = {
             name: newName,
             number: newNumber,
-            id: newNumber
           }
-    
-          setPersons(persons.concat(newPerson))
-          console.log(persons)
-          setNewName('')
-          setNewNumber('')
+
+          phoneService
+            .create(newPerson)
+            .then(response => {
+                setPersons(persons.concat(newPerson));
+            })    
+          
         }
+        setNewName('')
+        setNewNumber('')
       }
 
     return (
