@@ -55,6 +55,11 @@ const PersonForm = ({ newName, newNumber, setNewName, setNewNumber, persons, set
                 setPersons(persons.concat(newPerson))
                 setNotif(`Successfully added ${newName}`)
                 setTimeout(() => {setNotif(null)}, 2000)
+            })
+            .catch(error => {
+              setNotif('Validation Error')
+              setTimeout(() => {setNotif(null)}, 2000)
+              console.log(error.response.data.error)
             })    
           
         }
